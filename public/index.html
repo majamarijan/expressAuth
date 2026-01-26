@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name='viewport' content="width=device-width, initial-scale=1.0" />
+		<link rel='icon' href='/logo.ico' type="image/x-icon" />
+		<title>Welcome</title>
+		<style>
+			* {
+				margin:0;
+				padding:0;
+				box-sizing: border-box;
+				}
+			h1 {
+				padding: 3rem 2rem;
+				font-size: clamp(3rem,5vw, 4.5rem);
+			}
+			.flex {
+				display: flex;
+				flex-flow: row;
+				gap: 1rem;
+				align-items:center;
+			}
+			.flex li {
+				list-style:none;
+				padding: 0;
+			}
+			header {
+				background: lightgray;
+				padding-inline: 2rem;
+				padding-block: 1rem;
+				display: flex;
+				justify-content: space-between;
+			}
+			#login {
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<ul class='flex'>
+					<li>
+						<a href="/">Home</a>
+						
+					</li>
+					<li>
+						<a href='/about'>About</a>
+					</li>
+					<li>
+						<a href='/users'>Users</a>
+					</li>
+					<li><a href="/dashboard">Dashboard</a></li>
+				</ul>
+			</nav>
+			<button>
+			<a id='login' href='/login'>Login</a></button>
+		</header>
+		<h1>Welcome!</h1>
+		<script>
+		 const token = localStorage.getItem('token');
+		 if(token) {
+			document.querySelector('#login').innerText = 'Logout';
+			
+		 }
+		</script>
+	</body>
+</html>
+

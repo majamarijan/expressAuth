@@ -12,20 +12,16 @@ const db_users = [
 ];
 
 function authMiddelware(req,res,next){
-//check if clent token exists in Authorization headers - Bearer token
+ //verify token in Authorization header Bearer {token}
 	const authHeader = req.headers.authorization;
-	console.log(authHeader);
-	if(!authHeader) return res.status(403).send('Forbidden');
-	//extract token string
-	const token = authHeader.split(' ')[1];//remove "Bearer"
-	try {
-		const decoded = jwt.verify(token, process.env.TOKEN_SECRET_KEY);
-		console.log(`decoded ${JSON.stringify(decoded)}`)
+	const token = authHeader && authHeader.split(' ')[1];//remove "Bearer"
+	
+	if(!token) return res.status(401).json({message: 'Token required!'});
+	jwt.verify(token,process.env.TOKEN_SECRET_KEY, (err, decoded)=> {
+		if(err) return res.status(403).res.send('Forbidden!');
 		req.user = decoded;
 		next();
-	}catch (err){
-		res.status(401).send('Invalid or expired token Back to <a href="/">Home</a>');
-	}
+	});
 };
 
 router.post('/login', (req,res)=> {
@@ -36,13 +32,50 @@ router.post('/login', (req,res)=> {
 		return res.json({url:'/register'});
 	}
 	
-	//create token for existent user
-	console.log('user OK');
-	const token = jwt.sign({id:user.id, username:user.username}, process.env.TOKEN_SECRET_KEY, {expiresIn: '1m'});
-		res.json({token});
+	// accessToken paired with refreshToken
+	console.log('Creating access token and refresh token.');
+	const accessToken = jwt.sign({id:user.id, username:user.username}, process.env.TOKEN_SECRET_KEY, {expiresIn: '1m'});
+	// accessToken expires, then refreshToken is used in /refresh
+	// server verify and generate new accessToken
+	// when refreshToken expires, user will be logged out
+	const refreshToken = jwt.sign({id:user.id}, process.env.TOKEN_SECRET_KEY, {
+		expiresIn: '1d',
+		algorithm: HS256
+	});
+		res.json({accessToken, refreshToken});
 });
 
+router.post('/refresh', (req,res)=> {
+	const {token} = req.body;
+	jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, decoded)=> {
+		if(err) return res.status(403).send('Forbidden!');
+		const accessToken = jwt.sign({id:decoded.id, username:decoded.username}, process.env.TOKEN_SECRET_KEY, {expiresIn: '1m'});
+		res.json({accessToken});
+	})
+})
+
 router.get('/', authMiddelware);
+
+router.post('/register', (req, res) => {
+  const { username, password } = req.body;
+  const user = db_users.find((u) => u.username === username);
+  if (user) return res.json({ url: "/login" });
+  db_users.push({ id: db_users.length + 1, username, password });
+  // accessToken paired with refreshToken
+  const accessToken = jwt.sign(
+    { id: user.id, username: user.username },
+    process.env.TOKEN_SECRET_KEY,
+    { expiresIn: "1m" },
+  );
+  // accessToken expires, then refreshToken is used in /refresh
+  // server verify and generate new accessToken
+  // when refreshToken expires, user will be logged out
+  const refreshToken = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET_KEY, {
+    expiresIn: "1d",
+    algorithm: HS256,
+  });
+  res.json({ accessToken, refreshToken });
+});
 
 router.get('/user', authMiddelware, (req,res)=>{
 	res.json({...req.user});
@@ -56,5 +89,6 @@ router.get('/data', authMiddelware, (req,res)=> {
 		}
 	})
 });
+
 
 export default router;

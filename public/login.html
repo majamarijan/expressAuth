@@ -4,48 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name='viewport' content="width=device-width, initial-scale=1.0" />
 		<title>Login page</title>
-		<style>
-			* {
-				margin:0;
-				padding:0;
-				box-sizing: border-box;
-				}
-			h1 {
-				padding: 3rem 2rem;
-				font-size: clamp(3rem,5vw, 4.5rem);
-			}
-			.flex {
-				display: flex;
-				flex-flow: row;
-				gap: 1rem;
-				align-items:center;
-			}
-			.flex li {
-				list-style:none;
-				padding: 0;
-			}
-			header {
-				background: lightgray;
-				padding-inline: 2rem;
-				padding-block: 1rem;
-				display: flex;
-				justify-content: space-between;
-			}
-			h3 {
-				padding-inline: 2rem;
-			}
-			.form, form {
-				padding-left: 2rem;
-				display:flex;
-				flex-flow:column;
-				gap:1rem;
-				max-width: 480px;
-				align-items:center;
-			}
-			button a {
-				text-decoration: none;
-			}
-		</style>
+		<link rel='stylesheet' href='/styles.css' />
 	</head>
 	<body>
 	<header>
@@ -66,20 +25,22 @@
 			<button>
 			<a id='login' href='/login'>Login</a></button>
 		</header>
+		<div class='wrapper'>
 		<h1>Hello USER!</h1>
 		<div class='form'>
 		<h3>Please login</h3>
 		<form id="loginForm">
 			<div>
 				<label for='username'>Username</label><br />
-				<input id='username' name='username' placeholder="John Doe" type='text' />
+				<input id='username' name='username' placeholder="John Doe" type='text' required/>
 			</div>
 			<div>
 				<label for='pwd'>Password</label><br />
-				<input type='password' placeholder="123456" id='pwd' name='password' />
+				<input type='password' placeholder="123456" id='pwd' name='password' required />
 			</div>
 			<input type='submit' value="Submit" />
 		</form>
+		</div>
 		</div>
 		<script> 
 			document.querySelector("#loginForm").addEventListener("submit", async (e)=> {
@@ -105,6 +66,5 @@
 				}
 			});
 		</script>
-		<script type='module' src="./script.js"></script>
 	</body>
 </html>

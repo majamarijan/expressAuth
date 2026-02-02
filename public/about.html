@@ -4,37 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name='viewport' content="width=device-width, initial-scale=1.0" />
 		<title>About</title>
-		<style>
-			* {
-				margin:0;
-				padding:0;
-				box-sizing: border-box;
-				}
-			h1 {
-				padding: 3rem 2rem;
-				font-size: clamp(3rem,5vw, 4.5rem);
-			}
-			.flex {
-				display: flex;
-				flex-flow: row;
-				gap: 1rem;
-				align-items:center;
-			}
-			.flex li {
-				list-style:none;
-				padding: 0;
-			}
-			header {
-				background: lightgray;
-				padding-inline: 2rem;
-				padding-block: 1rem;
-				display: flex;
-				justify-content: space-between;
-			}
-			button a {
-				text-decoration: none;
-			}
-		</style>
+		<link rel='stylesheet' href='/styles.css' />
 	</head>
 	<body>
 		<header>
@@ -55,7 +25,9 @@
 			<button>
 			<a id='login' href='/login'>Login</a></button>
 		</header>
+		<div class='wrapper'>
 		<h1>About Page</h1>
+		</div>
 		<script>
 			const token = localStorage.getItem('token');
 			if (token) {

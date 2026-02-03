@@ -7,7 +7,7 @@ import favicon from 'serve-favicon';
 import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
-console.log(process.env.TOKEN_SECRET_KEY);
+//console.log(process.env.TOKEN_SECRET_KEY);
 app.use(favicon(path.join(import.meta.dirname,'public', 'logo.ico')));
 app.use(express.static(path.join(import.meta.dirname,'public')));
 app.use(express.json());

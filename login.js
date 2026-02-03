@@ -14,13 +14,14 @@ const db_users = [
 function authMiddelware(req,res,next){
  //verify token in Authorization header Bearer {token}
 	const authHeader = req.headers.authorization;
-	const refreshToken = req.cookies.refreshToken;
+	//const refreshToken = req.cookies.refreshToken;
 	const token = authHeader && authHeader.split(' ')[1];//remove "Bearer"
 	
 	if(!token) return res.status(401).json({message: 'Token required!'});
 	jwt.verify(token,process.env.TOKEN_SECRET_KEY, (err, decoded)=> {
 		if(err) return res.status(403).res.send('Forbidden!');
 		req.user = decoded;
+		console.log(req.user)
 		next();
 	});
 };
@@ -35,19 +36,21 @@ router.post('/login', (req,res)=> {
 	
 	// accessToken paired with refreshToken
 	console.log('Creating access token and refresh token.');
-	const accessToken = jwt.sign({id:user.id, username:user.username}, process.env.TOKEN_SECRET_KEY, 
-		{expiresIn: '1m',
-		algorithm: HS256});
+	const accessToken = jwt.sign({id:user.id, username:user.username}, process.env.TOKEN_SECRET_KEY, {expiresIn: '1m'});
 	// accessToken expires, then refreshToken is used in /refresh
 	// server verify and generate new accessToken
 	// when refreshToken expires, user will be logged out
-	const refreshToken = jwt.sign({id:user.id}, process.env.TOKEN_SECRET_KEY, {
-		expiresIn: '1d',
-		algorithm: HS256
-	});
-	res.setHeader('Content-Security-Policy', 'default-src \'self\'\nstyle-src \'self\' \'unsafe-inline\'\nscript-src \'self\' \'unsafe-inline\'\nimg-src \'self\'\nconnect-src \'self\'\nframe-src \'self\'');
-	res.cookie('refreshToken', refreshToken, {httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 2*60*1000});
-	res.json({accessToken, refreshToken});
+	// const refreshToken = jwt.sign({id:user.id}, process.env.TOKEN_SECRET_KEY, {
+	// 	expiresIn: '1d',
+	// 	algorithm: HS256
+	// });
+	console.log('accessToken created.');
+	res.setHeader(
+    "Content-Security-Policy",
+    "default 'self'; script-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline';",
+  );
+	// res.cookie('refreshToken', refreshToken, {httpOnly: true, secure: true, sameSite: 'Strict', maxAge: 2*60*1000});
+	res.json({accessToken});
 });
 
 router.post('/logout', (req,res)=> {
@@ -80,7 +83,7 @@ router.post('/refresh', (req,res)=> {
       { expiresIn: "1m" },
     );
 		const refreshToken = jwt.sign({ id: decoded.id }, process.env.TOKEN_SECRET_KEY, {
-			expiresIn: "1d",
+			expiresIn: "5m",
 			algorithm: HS256
 		});
 		//3. save refresh token in DB
@@ -88,7 +91,7 @@ router.post('/refresh', (req,res)=> {
 		//4. send tokens
 		res.setHeader(
       "Content-Security-Policy",
-      "default-src 'self'\nstyle-src 'self' 'unsafe-inline'\nscript-src 'self' 'unsafe-inline'\nimg-src 'self'\nconnect-src 'self'\nframe-src 'self'",
+      "default 'self'; script-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline';",
     );
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,

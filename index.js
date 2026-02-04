@@ -5,12 +5,14 @@ import mainRouter from './mainRoutes.js';
 import path from 'path';
 import favicon from 'serve-favicon';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 const app = express();
 //console.log(process.env.TOKEN_SECRET_KEY);
 app.use(favicon(path.join(import.meta.dirname,'public', 'logo.ico')));
 app.use(express.static(path.join(import.meta.dirname,'public')));
 app.use(express.json());
+app.use(cookieParser());
 app.use((req,res,next)=> {
 	console.log('Running');
 	next();

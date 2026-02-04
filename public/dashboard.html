@@ -33,7 +33,8 @@
         <div class="data">
           <h2 id="dataTitle"></h2>
         </div>
-        <button class="hidden" onclick="loadData()">Load data</button>
+        <button class="userData hidden">Load data</button>
+        <div class="hidden" id="userData"></div>
       </div>
     </div>
     <script type='module'>
@@ -45,12 +46,26 @@
         document.querySelector(".suspense").classList.add("hidden");
         document.querySelector("#username").innerText = " guest!";
 				document.querySelector("#login").innerText = "Login";
+        localStorage.removeItem("username");
       } else {
         //send token for verification
         const data = getData();
         if (data) {
           data.then((user) => {
-            document.querySelector("#login").innerText = "Logout";
+            const loginBtn = document.querySelector("#login");
+            loginBtn.innerText = "Logout";
+            loginBtn.onclick= ()=> {
+              const res = fetch("http://localhost:4000/secure/logout", {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              });
+              localStorage.removeItem("token");
+              localStorage.removeItem("username");
+              window.location.replace("/");
+            }
+
             if (user && user.username) {
 							localStorage.setItem('username',user.username);
               setTimeout(() => {
@@ -58,6 +73,25 @@
                   ` ${user.username}`;
                 document.querySelector(".ui").classList.remove("hidden");
                 document.querySelector(".suspense").classList.add("hidden");
+                const dataLoader = document.querySelector(".userData");
+                dataLoader.classList.remove("hidden");
+                dataLoader.onclick = async()=> {
+                  const res = await fetch("http://localhost:4000/secure/data", {
+                    method: "GET",
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                    credentials: "include",
+                  });
+                  return res.json().then((data) => {
+                    document.querySelector("#dataTitle").innerHTML = `${data.message} 
+                      <ul>
+                        <li>lessonsCompleted:${data.stats.lessonsCompleted}</li>  
+                        <li>badgesEarned: ${data.stats.badgesEarned}</li>
+                      </ul>
+                    ` ;
+                  })
+                }
               }, 1300);
             }
           });
@@ -66,7 +100,9 @@
 
       async function getData() {
         const res = await fetch("http://localhost:4000/secure/user", {
+          method: "GET",
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          credentials: "include",
         });
         const data = await res.json();
         return data;

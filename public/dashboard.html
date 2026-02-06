@@ -60,6 +60,7 @@
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
+                credentials: "include",
               });
               localStorage.removeItem("token");
               localStorage.removeItem("username");

@@ -2,7 +2,8 @@
   {
     "id": 1,
     "username": "alice55",
-    "password": "$2b$08$EC4DLLzNKxK.8GaBjwpHQO/WRaL5bW7FgZi/AEekpY9uQydQVrMAy"
+    "password": "$2b$08$EC4DLLzNKxK.8GaBjwpHQO/WRaL5bW7FgZi/AEekpY9uQydQVrMAy",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzcwNDg1NjU4LCJleHAiOjE3NzA0ODU4Mzh9.3QnI2XKK9pl7Gor6mL5IU9qoOab5Hc54veAKENWvIe0"
   },
   {
     "id": 2,

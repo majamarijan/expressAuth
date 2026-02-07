@@ -25,8 +25,7 @@ function authMiddelware(req, res, next) {
     const user = db_users.find(
       (u) => u.id === decoded.id && u.username === decoded.username,
     );
-    if (!user || user.refreshToken !== req.cookies.refreshToken)
-      return res.status(403).send("Forbidden!");
+    
     next();
   });
 }
@@ -97,7 +96,7 @@ router.get("/logout", authMiddelware, async (req, res) => {
   }
 });
 
-router.get("/refresh", async (req, res) => {
+router.get("/refresh", authMiddelware, async (req, res) => {
   console.log('refresh route');
   try{
     const {refreshToken} = req.cookies;
@@ -110,6 +109,7 @@ router.get("/refresh", async (req, res) => {
     jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY, (err, decoded) => {
       if(err) return res.status(403).send("Forbidden!");
       const user = db_users.find((u) => u.id === decoded.id);
+      console.log('id ',decoded.id)
       if(!user || user.refreshToken !== refreshToken) return res.status(403).send("Forbidden!");
       const accessToken = jwt.sign(
         { id: user.id, username: user.username },
@@ -122,6 +122,8 @@ router.get("/refresh", async (req, res) => {
         {
           expiresIn: "3m",
         });
+        db_users.splice(db_users.indexOf(user), 1, {...user, refreshToken: newRefreshToken});
+        fs.writeFileSync('users.json', JSON.stringify(db_users, null, 2));
       res.setHeader(
         "Content-Security-Policy",
         "default 'self'; script-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; style-src 'self' 'unsafe-inline';",

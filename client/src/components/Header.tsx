@@ -1,5 +1,6 @@
 import type { JSX } from "react";
 import reactIcon from "../assets/react.svg";
+import { Link } from "@tanstack/react-router";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,30 +10,65 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 
-
 export default function Header(): JSX.Element {
   return (
-    <header className='flex flex-row justify-between items-center'>
+    <header className="flex flex-row justify-between items-center flex-2">
       <img src={reactIcon} alt="React logo" />
-      <div>
-        <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/">Home</NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/about">About</NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/cards">Cards</NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink href="/login" className='outline-1 outline-solid outline-teal-900 hover:bg-teal-900'>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
-      </div>
+
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+            <Link
+              to="/"
+              activeProps={{
+                className: "font-bold",
+              }}
+              activeOptions={{ exact: true }}
+            >
+              Home
+            </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+             <Link
+              to="/about"
+              activeProps={{
+                className: "font-bold",
+              }}
+            >
+              About
+            </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+            <Link
+              to="/cards"
+              activeProps={{
+                className: "font-bold",
+              }}
+            >
+              Cards
+            </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+            <Link
+              to="/login"
+              activeProps={{
+                className: "font-bold",
+              }}
+              className="outline-1 outline-solid outline-slate-600"
+            >
+              Login/Register
+            </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
     </header>
   );
 }

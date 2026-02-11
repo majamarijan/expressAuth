@@ -6,7 +6,7 @@ export default function Hero() {
   return (
     <div className='relative grid place-items-center lg:place-items-start grid-cols-1 lg:grid-cols-[1fr_1fr] gap-4 items-center max-w-5xl mx-auto min-h-[50vh]'>
       <div className='relative z-10 max-w-lg place-self-center lg:text-left'>
-        <Heading as="title">Get your own Pokemon Cards!</Heading>
+        <Heading as="title" className='bg-linear-to-r from-chart-3 to-chart-1 bg-clip-text text-transparent'>Get your own Pokemon Cards!</Heading>
         <p className='pb-8'>The best place for your Pokemon collection. </p>
        <Button className='hidden lg:flex'>Get Started</Button>
       </div>

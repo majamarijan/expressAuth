@@ -11,6 +11,7 @@ import Header from '@/components/Header'
 import { Separator } from '@/components/ui/separator'
 import ErrorComp from '@/components/404'
 import { ThemeToggler } from '@/components/ThemeToggler'
+import Footer from '@/components/Footer'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -28,14 +29,12 @@ function RootComponent() {
         <ThemeToggler />
       </div>
         <Separator className='my-4' />
-        <main>
+        <main className='min-h-[80vh]'>
           <Outlet />
         </main>
         {/* <ReactQueryDevtools buttonPosition="bottom-left" />
         <TanStackRouterDevtools position="bottom-right" /> */}
-        <footer className='border min-h-[30vh]'>
-          Footer
-        </footer>
+      <Footer /> 
       </div>
     </React.Fragment>
   )

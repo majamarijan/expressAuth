@@ -1,5 +1,6 @@
 import type { JSX } from "react";
 import reactIcon from "../assets/react.svg";
+import { MobileMenu } from "./MobileMenu";
 import { Link } from "@tanstack/react-router";
 import {
   NavigationMenu,
@@ -12,63 +13,63 @@ import {
 
 export default function Header(): JSX.Element {
   return (
-    <header className="flex flex-row justify-between items-center flex-2">
-      <img src={reactIcon} alt="React logo" />
-
+    <header className="flex flex-row md:justify-between items-center flex-2">
+      <img src={reactIcon} alt="React logo" className="hidden md:block" />
       <NavigationMenu>
-        <NavigationMenuList>
+        <NavigationMenuList className={`hidden md:flex`}>
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
-            <Link
-              to="/"
-              activeProps={{
-                className: "font-bold",
-              }}
-              activeOptions={{ exact: true }}
-            >
-              Home
-            </Link>
+              <Link
+                to="/"
+                activeProps={{
+                  className: "font-bold",
+                }}
+                activeOptions={{ exact: true }}
+              >
+                Home
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
-             <Link
-              to="/about"
-              activeProps={{
-                className: "font-bold",
-              }}
-            >
-              About
-            </Link>
+              <Link
+                to="/about"
+                activeProps={{
+                  className: "font-bold",
+                }}
+              >
+                About
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
-            <Link
-              to="/cards"
-              activeProps={{
-                className: "font-bold",
-              }}
-            >
-              Cards
-            </Link>
+              <Link
+                to="/cards"
+                activeProps={{
+                  className: "font-bold",
+                }}
+              >
+                Cards
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
-            <Link
-              to="/login"
-              activeProps={{
-                className: "font-bold",
-              }}
-              className="outline-1 outline-solid outline-slate-600"
-            >
-              Login/Register
-            </Link>
+              <Link
+                to="/login"
+                activeProps={{
+                  className: "font-bold",
+                }}
+                className="outline-1 outline-solid outline-slate-600"
+              >
+                Login/Register
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
+      <MobileMenu />
     </header>
   );
 }

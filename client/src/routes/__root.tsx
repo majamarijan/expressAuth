@@ -3,6 +3,7 @@ import {
   Outlet,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
+import React from 'react'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { QueryClient } from '@tanstack/react-query'
@@ -20,17 +21,22 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
   return (
-    <>
-    <div className='flex gap-4'>
-      <Header />
-      <ThemeToggler />
-    </div>
-      <Separator className='my-4' />
-      <main className='min-h-screen pt-12'>
-        <Outlet />
-      </main>
-      {/* <ReactQueryDevtools buttonPosition="bottom-left" />
-      <TanStackRouterDevtools position="bottom-right" /> */}
-    </>
+    <React.Fragment>
+      <div id='wrapper' className=''>
+      <div className='flex gap-4'>
+        <Header />
+        <ThemeToggler />
+      </div>
+        <Separator className='my-4' />
+        <main>
+          <Outlet />
+        </main>
+        {/* <ReactQueryDevtools buttonPosition="bottom-left" />
+        <TanStackRouterDevtools position="bottom-right" /> */}
+        <footer className='border min-h-[30vh]'>
+          Footer
+        </footer>
+      </div>
+    </React.Fragment>
   )
 }

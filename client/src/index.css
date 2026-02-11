@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -5,15 +6,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* @font-face {
-  font-family: 'Poppins';
-  src: url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@theme {
+  --font-poppins: "Poppins", ui-sans-serif, system-ui;
 }
-
-@font-face {
-  font-family: 'Inter';
-  src: url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-} */
 
 :root {
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -63,28 +58,38 @@
 }
 
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   text-align: center;
   min-height: 100vh;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Poppins', ui-sans-serif, system-ui;
+#wrapper {
+  padding: 2rem 2rem 0 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply py-4 md:py-4 font-poppins;
+}
+
 
 a {
   font-weight: 500;
   color: var(--chart-2);
   text-decoration: inherit;
 }
+
 a:hover {
   color: var(--chart-3);
 }
 
 h1 {
-  
+
   line-height: 1.1;
 }
 
@@ -93,14 +98,17 @@ button {
   border: 1px solid var(--chart-5);
   padding: 0.6em 1.2em;
   font-size: 1em;
+  background: var(--chart-3);
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -111,13 +119,16 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
 }
+
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -198,6 +209,7 @@ button:focus-visible {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }

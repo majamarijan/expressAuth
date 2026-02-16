@@ -41,8 +41,20 @@ export default function Header(): JSX.Element {
                 About
               </Link>
             </NavigationMenuLink>
-          </NavigationMenuItem>
+             </NavigationMenuItem>
           <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link
+                to="/pokemons"
+                activeProps={{
+                  className: "font-bold",
+                }}
+              >
+                Pokemons
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          {/* <NavigationMenuItem>
             <NavigationMenuLink asChild>
               <Link
                 to="/cards"
@@ -53,7 +65,7 @@ export default function Header(): JSX.Element {
                 Cards
               </Link>
             </NavigationMenuLink>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
               <Link

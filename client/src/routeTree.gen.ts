@@ -10,18 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as CardsRouteImport } from './routes/cards'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PokemonsIndexRouteImport } from './routes/pokemons/index'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CardsRoute = CardsRouteImport.update({
-  id: '/cards',
-  path: '/cards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -34,39 +29,44 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PokemonsIndexRoute = PokemonsIndexRouteImport.update({
+  id: '/pokemons/',
+  path: '/pokemons/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cards': typeof CardsRoute
   '/login': typeof LoginRoute
+  '/pokemons/': typeof PokemonsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cards': typeof CardsRoute
   '/login': typeof LoginRoute
+  '/pokemons': typeof PokemonsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cards': typeof CardsRoute
   '/login': typeof LoginRoute
+  '/pokemons/': typeof PokemonsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/cards' | '/login'
+  fullPaths: '/' | '/about' | '/login' | '/pokemons/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/cards' | '/login'
-  id: '__root__' | '/' | '/about' | '/cards' | '/login'
+  to: '/' | '/about' | '/login' | '/pokemons'
+  id: '__root__' | '/' | '/about' | '/login' | '/pokemons/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CardsRoute: typeof CardsRoute
   LoginRoute: typeof LoginRoute
+  PokemonsIndexRoute: typeof PokemonsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -76,13 +76,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cards': {
-      id: '/cards'
-      path: '/cards'
-      fullPath: '/cards'
-      preLoaderRoute: typeof CardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -99,14 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pokemons/': {
+      id: '/pokemons/'
+      path: '/pokemons'
+      fullPath: '/pokemons/'
+      preLoaderRoute: typeof PokemonsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CardsRoute: CardsRoute,
   LoginRoute: LoginRoute,
+  PokemonsIndexRoute: PokemonsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

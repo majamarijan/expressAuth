@@ -4,16 +4,6 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Spinner } from "@/components/ui/spinner";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { PokemonCard } from "@/components/PokeCard";
 import Section from "@/components/Section";
@@ -88,7 +78,7 @@ function Home() {
             grow.
           </p>
         </div>
-        <PokemonCard name='Hornet' imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/15.png" hp={80} attack={150} description="A swift creature with electric powers. Known for its agility and sharp instincts." />
+        <PokemonCard id={50} name='Hornet' color='yellow' imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/15.png" hp={80} attack={150} description="A swift creature with electric powers. Known for its agility and sharp instincts." />
       </Section>
      
       <Section className="bg-secondary">

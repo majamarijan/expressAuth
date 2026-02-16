@@ -76,14 +76,17 @@ export async function fetchPokemonDetails(p:PokemonListItem) {
           stats: detailsJson.stats,
           base_experience: detailsJson.base_experience,
           id: detailsJson.id,
-          types: detailsJson.types,
-          sprites: detailsJson.sprites
+          sprites: detailsJson.sprites,
+          ability: detailsJson.abilities[0].ability.name,
+          gameIndex: detailsJson.game_indices[0].game_index,
+          type: detailsJson.types[0].type.name
         },
           species: {
             base_happiness: speciesJson.base_happiness,
             color: speciesJson.color.name,
             flavor_text_entries: speciesJson.flavor_text_entries,
-            egg_groups: speciesJson.egg_groups,
+            egg: speciesJson.egg_groups.length > 0 ? speciesJson.egg_groups[speciesJson.egg_groups.length - 1].name : '',
+            evolves_from: speciesJson.evolves_from_species
           }
         };
 }

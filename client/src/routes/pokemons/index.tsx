@@ -40,16 +40,18 @@ export default function Pokemons() {
 
 
   return (
-    <section className="min-h-[50vh] flex flex-col gap-8 items-center">
+    <section className="min-h-[50vh] flex flex-col items-center">
 
   <h1>POKEMONS</h1>
       <TabsLine />
-      <div className="flex flex-col items-center justify-center min-h-[50vh] h-[80vh]">
+      <div className="flex flex-col items-center justify-center py-4">
         {/* {isFetching && <Spinner className="w-24 h-24" />} */}
         <ErrorBoundary fallback={<h1>Error</h1>}>
+        <div className="flex flex-wrap md:grid md:grid-cols-4 justify-center gap-4 items-center duration-700">
         <Suspense fallback={<SuspenseGrid ln={8} />}>
           <PokemonList list={data || []} />
           </Suspense>
+        </div>
           </ErrorBoundary>
         
       </div>
@@ -63,18 +65,18 @@ export default function Pokemons() {
 
 function SuspenseGrid({ln}: {ln: number}) {
   return (
-    <div className='flex flex-wrap gap-4 items-center justify-center'>
+    <>
       {[...Array(ln)].map((_, i) => (
-        <Skeleton key={i} className="w-50 h-70 fade-out animate-pulse" />
+        <Skeleton key={i} className="w-40 h-62 fade-out animate-pulse" />
       ))}
-    </div>
+    </>
   )
 }
 
 function PokemonList({list}:{list:PokemonListItem[]}) {
 const pokemonDetails = useSuspenseQueries(pokemonDetailsQuery(list || []));
   return (
-     <div className="flex flex-wrap justify-center gap-4 items-center duration-700">
+     <>
        {pokemonDetails.map((dt) => {
          const pokemon = dt.data.details;
          const species = dt.data.species;
@@ -84,13 +86,17 @@ const pokemonDetails = useSuspenseQueries(pokemonDetailsQuery(list || []));
            name={pokemon.name}
            imageUrl={pokemon.sprites.other["dream_world"].front_default}
            hp={pokemon.stats[0].base_stat}
-           attack={pokemon.base_experience}
+           attack={pokemon.stats[1].base_stat}
+           defence={pokemon.stats[2].base_stat}
            id={pokemon.id}
            color={species.color}
+           egg={species.egg}
+           ability={pokemon.ability}
+           gameIndex={pokemon.gameIndex}
          />
          )
        })}
-     </div>
+     </>
     
   )
 }
